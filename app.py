@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, request
 import api_functions
-from db_create import build_table
 import json
 
 app = Flask(__name__)
@@ -10,7 +9,14 @@ def get_all_books():
     books = api_functions.get_books()
     return jsonify(books)
 
-@app.route('/books/v1/add', methods=["POST"])
+@app.route('/books/v1/GetField', methods=["GET"])
+def get_books_by_search():
+    query = request.query_string.decode()
+    param = query.split("=",1)[1]
+    books = api_functions.get_single_type(param)
+    return jsonify({param: books})
+
+@app.route('/books/v1/AddBook', methods=["POST"])
 def add_a_book():
     try:
         books = request.get_json()
@@ -25,7 +31,7 @@ def add_a_book():
 
 
 if __name__ == "__main__":
-    build_table()
+    #build_table()
     """
     Here you can change debug and port
     Remember that, in order to make this API functional, you must set debug in False
