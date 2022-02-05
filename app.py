@@ -31,9 +31,4 @@ def add_a_book():
 
 
 if __name__ == "__main__":
-    #build_table()
-    """
-    Here you can change debug and port
-    Remember that, in order to make this API functional, you must set debug in False
-    """
-    app.run(host='127.0.0.1', port=8000, debug=False)
+    app.run(host='0.0.0.0', port=8000, debug=False)
