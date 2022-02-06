@@ -60,8 +60,15 @@ Example JSON for AddBook:
 ----------------------------------------------------------------------------------------------------------------------------------------------
 curl -X POST http://<API URL or IP>:8000/books/v1/AddBook -H 'Content-Type: application/json' -d '{"authors": "authors here", "description": "description here", "title": "title here", "isbn": "isbn here"}'
 
+## Load the redis database from the O'Reilly site API
+```sh
+pip3 install -r db-server-script/requirements.txt
+python3 db-server-script/db-builder.py
+```
+
 ## Miscellaneous
 
 Docker Image: 
 tfvoncan/oreilly-repo
 [Docker Image]: <https://hub.docker.com/repository/docker/tfvoncan/oreilly-repo>
+
