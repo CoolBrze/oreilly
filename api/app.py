@@ -4,6 +4,10 @@ import json
 
 app = Flask(__name__)
 
+@app.route('/health', methods=["GET"])
+def get_health():
+    return jsonify({"success": True})
+
 @app.route('/books', methods=["GET"])
 def get_all_books():
     books = api_functions.get_books()
