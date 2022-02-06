@@ -15,17 +15,15 @@ def get_all_books():
 
 @app.route('/books/v1/GetField', methods=["GET"])
 def get_books_by_field():
-    try:
-        query = request.query_string.decode()
-        param = query.split("=",1)[1]
-        books = api_functions.get_single_type(param)
-    except Exception as e:
-        books = []
-        pass
-    if books:
+    query = request.query_string.decode()
+    param = query.split("=",1)[1]
+    books = api_functions.get_single_type(param)
+    print(param)
+    print(books)
+    if books and param:
         return jsonify({param: books})
     else:
-        return jsonify({'EmptySet': f"Unable to parse by field ['{param}'], please try 'title', 'isbn', 'authors', or 'description'"})
+        return jsonify({'EmptySet': f"Unable to parse by field, please try 'title', 'isbn', 'authors', or 'description'"})
 
 @app.route('/books/v1/GetByTitle', methods=["GET"])
 def get_title_book():

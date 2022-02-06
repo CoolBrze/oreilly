@@ -20,6 +20,10 @@ spec:
         image: tfvoncan/oreilly-repo
         ports:
         - containerPort: 8000
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
 ...
 
 ---
@@ -35,19 +39,53 @@ spec:
     protocol: TCP
   selector:
     app: api
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: api
+  name: oreilly-api
+spec:
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: api
+  sessionAffinity: None
+  type: ClusterIP
+
 ...
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: api-node
+  labels:
+    app: api
+  name: oreilly-nodeport
 spec:
-  type: NodePort
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 32401
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
   selector:
     app: api
-  ports:
-    - port: 8000
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
 ...
 
 ---
@@ -78,13 +116,22 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: redis
   labels:
     app: db
+  name: redis
 spec:
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
   ports:
   - port: 6379
     protocol: TCP
+    targetPort: 6379
   selector:
     app: db
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
 ...
