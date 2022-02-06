@@ -18,10 +18,29 @@ def get_single_type(param):
         param_dict = {N : item[param]}
         param_list.append(param_dict)
         N += 1
-    print(param_dict)
-    print(param_list)
     return param_list
 
+def get_by_title(param):
+    redis_data = json.loads(r.get('books'))
+    found_titles = []
+    for entry in redis_data:
+        listed_title = entry['title'].split()
+        concat_title = "+".join(listed_title)
+        if param in concat_title.lower():
+            found_titles.append(entry)
+        else:
+            pass
+    return found_titles
+
+def get_by_isbn(param):
+    redis_data = json.loads(r.get('books'))
+    found_titles = []
+    for entry in redis_data:
+        if param in entry['isbn']:
+            found_titles.append(entry)
+        else:
+            pass
+    return found_titles
 
 def add_book(title, isbn, authors, description):
     redis_data = json.loads(r.get('books'))
