@@ -54,11 +54,11 @@ kubectl get svc oreilly-api
 
 Example request for "GET" functions:
 ----------------------------------------------------------------------------------------------------------------------------------------------
-curl http://<API URL or IP>:8000/books | python3 -m json.tool
+curl http://{API URL or IP}:8000/books | python3 -m json.tool
 
 Example JSON for AddBook:
 ----------------------------------------------------------------------------------------------------------------------------------------------
-curl -X POST http://<API URL or IP>:8000/books/v1/AddBook -H 'Content-Type: application/json' -d '{"authors": "authors here", "description": "description here", "title": "title here", "isbn": "isbn here"}'
+curl -X POST http://{API URL or IP}:8000/books/v1/AddBook -H 'Content-Type: application/json' -d '{"authors": "authors here", "description": "description here", "title": "title here", "isbn": "isbn here"}'
 
 ## Load the redis database from the O'Reilly site API
 ```sh
